@@ -1,5 +1,6 @@
 abstract class AppString {
   static const String APP_NAME = "Bạch Long MB";
+  static const String MODIFIED_DATE_FROM = "01/01/2025";
 }
 
 abstract class AppReponseString {

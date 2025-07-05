@@ -1,10 +1,11 @@
 import 'package:blshop/routes/app_pages.dart';
+import 'package:blshop/theme/theme_data.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 
-Future<void> main() async {
+void main() async {
   if (kReleaseMode) {
     await dotenv.load(fileName: '.env.prod');
   } else {
@@ -17,7 +18,8 @@ Future<void> main() async {
       initialRoute: AppPages.INITIAL,//màn hình mặc định khi chạy app, được dẫn bằng name router
 
       locale: const Locale('pt', 'BR'),
-      getPages: AppPages.routes
+      getPages: AppPages.routes,
+      theme: ThemeCustom.themeData,
   ));
 }
 

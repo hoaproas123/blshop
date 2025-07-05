@@ -38,6 +38,14 @@ dependencies:
   dio: ^5.4.3+1
   flutter_dotenv: ^5.1.0
   equatable: ^2.0.5
+  intl: ^0.18.1
+  shared_preferences: ^2.2.2
+  google_maps_flutter: ^2.5.0
+  url_launcher: ^6.2.4
+  geolocator: ^10.1.0
+  cached_network_image: ^3.3.1
+  carousel_slider_plus: ^6.0.0
+  flutter_html: ^3.0.0-beta.2
 
 dev_dependencies:
   flutter_test:
@@ -65,6 +73,7 @@ flutter:
   assets:
     - .env.dev
     - .env.prod
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
