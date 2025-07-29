@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 class ListProductModel{
+  int? selectIndex;
   final String title;
   final List<ProductModel> listProductModel;
 
-  ListProductModel(
-      this.title,
-      this.listProductModel
-  );
+  ListProductModel({
+    this.selectIndex = 0,
+    required this.title,
+    required this.listProductModel
+  });
 }
 
 class ProductModel {

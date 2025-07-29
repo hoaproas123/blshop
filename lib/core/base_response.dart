@@ -5,6 +5,7 @@ class BaseResponse extends Equatable {
   final int? statusCode;
   final String? responseStatus;
   final data;
+  final totalPage;
   final String? message;
   final Map<String, dynamic>? lang;
 
@@ -13,6 +14,7 @@ class BaseResponse extends Equatable {
       this.statusCode,
       this.responseStatus,
       this.data,
+      this.totalPage,
       this.message,
       this.lang,});
 

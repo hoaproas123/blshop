@@ -196,6 +196,7 @@ class HomeProvider extends GetConnect {
     id
     name
     image
+    description
     meta_title
     display_mode
     url_key

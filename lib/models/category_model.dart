@@ -9,6 +9,7 @@ class CategoryModel {
   String? urlPath;
   String? path;
   String? contentHot;
+  String? description;
   int? position;
   int? show;
   int? checkShowCategoryInPage;
@@ -16,7 +17,12 @@ class CategoryModel {
   String? childrenCount;
   List<CategoryModel>? children;
 
-  CategoryModel();
+  CategoryModel({
+    this.id,
+    this.name,
+    this.description,
+    this.childrenCount,
+});
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -29,6 +35,7 @@ class CategoryModel {
     urlPath = json['url_path'];
     path = json['path'];
     contentHot = json['content_hot'];
+    description = json['description'];
     position = json['position'];
     show = json['show'];
     checkShowCategoryInPage = json['check_show_category_in_page'];

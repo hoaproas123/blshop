@@ -5,7 +5,6 @@ import 'package:blshop/constant/app_string.dart';
 import 'package:blshop/core/alert.dart';
 import 'package:blshop/core/base_response.dart';
 import 'package:blshop/data/rank.dart';
-import 'package:blshop/models/arguments_model.dart';
 import 'package:blshop/models/banner_model.dart';
 import 'package:blshop/models/category_model.dart';
 import 'package:blshop/models/customer_model.dart';
@@ -17,9 +16,8 @@ import 'package:blshop/modules/home/model/orders_model.dart';
 import 'package:blshop/modules/home/repository/home_repository.dart';
 import 'package:blshop/models/rank_model.dart';
 import 'package:blshop/modules/home/view/home_page.dart';
-import 'package:blshop/modules/home/view/home_page/user_page.dart';
+import 'package:blshop/modules/home/view/user_page/user_page.dart';
 import 'package:blshop/modules/home/view/store_map_page.dart';
-import 'package:blshop/routes/app_pages.dart';
 import 'package:blshop/services/domain_service.dart';
 import 'package:blshop/services/utils.dart';
 import 'package:carousel_slider_plus/carousel_controller.dart';
@@ -30,7 +28,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-class HomeController extends GetxController with GetSingleTickerProviderStateMixin{
+class HomeController extends GetxController with GetTickerProviderStateMixin{
   final HomeRepository homeRepository;
   HomeModel? homeModel;
   HomeController({required this.homeRepository});
@@ -48,6 +46,7 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
   RxBool isLoading=true.obs;
   late TabController tabController;
   RxInt selectedPageIndex = 0.obs;
+  TextEditingController textSearchEditingController=TextEditingController();
   final List<Widget> pages = [
     HomePage(),
     StoreMapPage(),
@@ -78,6 +77,10 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
     Future.delayed(Duration(milliseconds: 800),() => isLoading.value=false,);
     getProduct();
     getVoucherFromRank('slugRank');
+  }
+
+  TabController tabCategoryController(int length) {
+    return TabController(length: length, vsync: this);
   }
   ///***************************
   Future<void> getOrdersDataFromId() async {
@@ -235,15 +238,12 @@ class HomeController extends GetxController with GetSingleTickerProviderStateMix
       if(listCategoryModel[0].children![i].children!.isNotEmpty){
         final item = listCategoryModel[0].children?[i].children?[0];
         final productFromId= await getProductFromId(item!.id!);
-        listProductModel.add(ListProductModel(name!, productFromId));
+        listProductModel.add(ListProductModel(title: name!,listProductModel: productFromId));
       }
       else{
-        listProductModel.add(ListProductModel(name!, []));
+        listProductModel.add(ListProductModel(title: name!,listProductModel: []));
       }
     }
-  }
-  onToOrderPage(){
-    Get.toNamed(Routes.DETAIL_ORDER,arguments: ArgumentsModel(customerModel: customerModel.value,rank: rank.value));
   }
   // Cập nhật index khi nhấn vào icon
   onChangePage(int index) {

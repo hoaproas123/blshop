@@ -1,10 +1,10 @@
 import 'package:blshop/constant/app_color.dart';
 import 'package:blshop/constant/app_string.dart';
 import 'package:blshop/modules/home/controller/home_controller.dart';
-import 'package:blshop/modules/home/view/home_page/history_tab.dart';
-import 'package:blshop/modules/home/view/home_page/overview_tab.dart';
-import 'package:blshop/modules/home/view/home_page/rank_tab.dart';
-import 'package:blshop/modules/home/view/home_page/voucher_tab.dart';
+import 'package:blshop/modules/home/view/user_page/history_tab.dart';
+import 'package:blshop/modules/home/view/user_page/overview_tab.dart';
+import 'package:blshop/modules/home/view/user_page/rank_tab.dart';
+import 'package:blshop/modules/home/view/user_page/voucher_tab.dart';
 import 'package:blshop/modules/home/widgets/show_currentPoint.dart';
 import 'package:blshop/services/utils.dart';
 import 'package:blshop/widgets/loading_screen_widget.dart';
@@ -77,7 +77,7 @@ class UserPage extends GetView<HomeController> {
                   ),
                 ),
                 MaterialButton(
-                  onPressed: () => controller.onToOrderPage(),
+                  onPressed: () {},
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -257,7 +257,7 @@ class UserPage extends GetView<HomeController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   GestureDetector(
-                    onTap: () => controller.onToOrderPage(),
+                    onTap: () {},
                     child: Row(
                       children: [
                         Container(
