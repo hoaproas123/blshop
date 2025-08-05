@@ -1,6 +1,5 @@
 import 'package:blshop/constant/app_color.dart';
 import 'package:blshop/modules/detail/controller/detail_controller.dart';
-import 'package:blshop/modules/detail/model/detail_model.dart';
 import 'package:blshop/services/utils.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,13 +8,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
-class BottomSheetWidget extends StatelessWidget {
+class BottomSheetWidget extends GetView<DetailController> {
   const BottomSheetWidget({
     super.key,
-    required this.controller,
   });
 
-  final DetailController controller;
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(

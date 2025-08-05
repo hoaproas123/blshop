@@ -9,16 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-class OptionProductWidget extends StatelessWidget {
+class OptionProductWidget extends GetView<DetailController> {
   const OptionProductWidget({
     super.key,
     required this.item,
-    required this.controller,
   });
 
   final DetailModel item;
-  final DetailController controller;
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -120,44 +117,46 @@ class OptionProductWidget extends StatelessWidget {
                               child: InkWell(
                                 onTap: (){
                                   controller.currentVariantIndex.value=index;
-                                  controller.currentVariant.value=variant;
+                                  controller.currentVariant.value=variant!;
                                 },
-                                child: Card(
-                                  color: Colors.white,
-                                  shape: controller.currentVariantIndex.value==index ? Border.all(color: AppColor.mainColor,width: 2) : null,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        CachedNetworkImage(
-                                          imageUrl: variant!.product!.image!.url!,
-                                          width: 50,
-                                        ),
-                                        SizedBox(width: 5,),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              '${variant.attributes?[0].label}',
-                                              style: TextStyle(
+                                child: Obx(() {
+                                  return Card(
+                                    color: Colors.white,
+                                    shape: controller.currentVariantIndex.value==index ? Border.all(color: AppColor.mainColor,width: 2) : null,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        children: [
+                                          CachedNetworkImage(
+                                            imageUrl: variant!.product!.image!.url!,
+                                            width: 50,
+                                          ),
+                                          SizedBox(width: 5,),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                '${variant.attributes?[0].label}',
+                                                style: TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              Text(
+                                                '${Utils.formatCurrency(variant.product!.priceRange!.minimumPrice!.finalPrice!.value.toString())} ${variant.product?.priceRange?.minimumPrice?.finalPrice?.currency}',
+                                                style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 18,
-                                                  fontWeight: FontWeight.bold
+                                                ),
                                               ),
-                                            ),
-                                            Text(
-                                              '${Utils.formatCurrency(variant.product!.priceRange!.minimumPrice!.finalPrice!.value.toString())} ${variant.product?.priceRange?.minimumPrice?.finalPrice?.currency}',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ),
+                                  );
+                                },)
                               ),
                             );
                           },),
@@ -191,17 +190,19 @@ class OptionProductWidget extends StatelessWidget {
                                         )
                                     ),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        border: Border.all(color: Colors.red),
-                                        borderRadius: BorderRadius.circular(2)
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 2),
-                                      child: Text('-${100-((((((((controller.currentVariant.value.product?.priceRange?.minimumPrice?.finalPrice?.value)! + item.options![0].value![controller.currentOptionIndex.value].price!)??0)/(double.parse(item.attributes?.firstWhere((attr) => attr.attributeCode == 'price_original',).value ?? '0')))*100).floor()/100)*100))~/1}%',style: TextStyle(color: Colors.red,fontSize: 13,fontWeight: FontWeight.bold),),
-                                    ),
-                                  )
+                                  Obx(() {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          border: Border.all(color: Colors.red),
+                                          borderRadius: BorderRadius.circular(2)
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 2),
+                                        child: Text('-${100-((((((((controller.currentVariant.value.product?.priceRange?.minimumPrice?.finalPrice?.value)! + item.options![0].value![controller.currentOptionIndex.value].price!)??0)/(double.parse(item.attributes?.firstWhere((attr) => attr.attributeCode == 'price_original',).value ?? '0')))*100).floor()/100)*100))~/1}%',style: TextStyle(color: Colors.red,fontSize: 13,fontWeight: FontWeight.bold),),
+                                      ),
+                                    );
+                                  },)
                                 ],
                               ),
                               Padding(
@@ -242,51 +243,53 @@ class OptionProductWidget extends StatelessWidget {
                               ]
                           )
                               :
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: List.generate(item.options![0].value!.length, (index) {
-                                final option = item.options?[0].value?[index];
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(vertical:  8.0),
-                                  child: InkWell(
-                                    onTap: (){
-                                      controller.currentOptionIndex.value=index;
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.circular(5),
-                                        border: controller.currentOptionIndex.value==index ? Border.all(color: Colors.red,width: 2) : null,
+                          Obx(() {
+                            return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: List.generate(item.options![0].value!.length, (index) {
+                                  final option = item.options?[0].value?[index];
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(vertical:  8.0),
+                                    child: InkWell(
+                                      onTap: (){
+                                        controller.currentOptionIndex.value=index;
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(5),
+                                          border: controller.currentOptionIndex.value==index ? Border.all(color: Colors.red,width: 2) : null,
 
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(8),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                                option!.title!,
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Colors.black,
-                                                )
-                                            ),
-                                            Text(
-                                              '${Utils.formatCurrency(((controller.currentVariant.value.product?.priceRange?.minimumPrice?.finalPrice?.value)! + option.price!).toString())} ${controller.currentVariant.value.product?.priceRange?.minimumPrice?.finalPrice!.currency!}',
-                                              style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.bold
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  option!.title!,
+                                                  style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.black,
+                                                  )
                                               ),
-                                            ),
-                                          ],
+                                              Text(
+                                                '${Utils.formatCurrency(((controller.currentVariant.value.product?.priceRange?.minimumPrice?.finalPrice?.value)! + option.price!).toString())} ${controller.currentVariant.value.product?.priceRange?.minimumPrice?.finalPrice!.currency!}',
+                                                style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },)
-                          ),
+                                  );
+                                },)
+                            );
+                          },)
                         ],
                       ),
                     ),
