@@ -47,32 +47,29 @@ class ReviewImageWidget extends StatelessWidget {
               onPageChanged: (index, reason) {
               },)
         ),
-        Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: SizedBox(
-            height: 100,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children: List.generate(item.mediaGallery!.length, (index) {
-                final media = item.mediaGallery?[index];
-                return media == null ?
-                SizedBox()
-                    :
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 6.0),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Card(
-                      color: Colors.white,
-                      child: CachedNetworkImage(
-                        imageUrl: media.url!,
-                        width: 90,
-                      ),
+        SizedBox(
+          height: 100,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: List.generate(item.mediaGallery!.length, (index) {
+              final media = item.mediaGallery?[index];
+              return media == null ?
+              SizedBox()
+                  :
+              Padding(
+                padding: const EdgeInsets.all(6.0),
+                child: InkWell(
+                  onTap: () {},
+                  child: Card(
+                    color: Colors.white,
+                    child: CachedNetworkImage(
+                      imageUrl: media.url!,
+                      width: 90,
                     ),
                   ),
-                );
-              },),
-            ),
+                ),
+              );
+            },),
           ),
         ),
       ],

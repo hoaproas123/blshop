@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:blshop/constant/app_string.dart';
@@ -11,16 +10,13 @@ import 'package:get/get.dart';
 
 class DetailController extends GetxController {
   final DetailRepository detailRepository;
-
   DetailController({required this.detailRepository});
-
   RxBool isLoading = true.obs;
   String url = Get.arguments;
   Rx<DetailModel> detailModel = DetailModel().obs;
   Rx<int> currentOptionIndex = 0.obs;
   Rx<int> currentVariantIndex = 0.obs;
   Rx<Variant> currentVariant = Variant().obs;
-  RxBool isSeeMore=false.obs;
 
   @override
   void onInit() async {
@@ -29,7 +25,6 @@ class DetailController extends GetxController {
     currentVariant.value = detailModel.value.variants![0];
     isLoading.value = false;
   }
-
   ///***************************
   Future<void> getDetailProductFromUrl(String url) async {
     final BaseResponse? response;
@@ -43,14 +38,5 @@ class DetailController extends GetxController {
           buttonText: CommonString.CANCEL);
     }
   }
-
-  String? findAtrributeLabel(DetailModel item, String attributeCode) {
-    return "${item.attributes!.firstWhere((element) =>
-    element.attributeCode == attributeCode).label}:";
   }
 
-  String? findAtrributeValue(DetailModel item, String attributeCode) {
-    return item.attributes!.firstWhere((element) =>
-    element.attributeCode == attributeCode).value;
-  }
-}
