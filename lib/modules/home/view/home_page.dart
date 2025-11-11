@@ -356,7 +356,6 @@ class HomePage extends GetView<HomeController> {
                                                     Padding(
                                                       padding: const EdgeInsets.only(right: 20.0),
                                                       child: Container(
-                                                        height: 35,
                                                         decoration: BoxDecoration(
                                                             color: Colors.red,
                                                             borderRadius:BorderRadius.circular(5)
@@ -366,15 +365,18 @@ class HomePage extends GetView<HomeController> {
                                                           crossAxisAlignment: CrossAxisAlignment.center,
                                                           children: [
                                                             Icon(Icons.local_fire_department_rounded,color: Colors.orange,size: 17,),
-                                                            Html(
-                                                              data: category_item.contentHot,
-                                                              style: {
-                                                                ".tag_sale": Style(
-                                                                  color: Colors.white, // 🎯 Ghi đè màu chữ tại class .tag_sale
-                                                                  fontWeight: FontWeight.bold,
-                                                                  fontSize: FontSize(12),
-                                                                ),
-                                                              },
+                                                            SizedBox(
+                                                              width: Get.width*0.35,
+                                                              child: Html(
+                                                                data: category_item.contentHot,
+                                                                style: {
+                                                                  ".tag_sale": Style(
+                                                                    color: Colors.white, // 🎯 Ghi đè màu chữ tại class .tag_sale
+                                                                    fontWeight: FontWeight.bold,
+                                                                    fontSize: FontSize(12),
+                                                                  ),
+                                                                },
+                                                              ),
                                                             ),
                                                           ],
                                                         ),

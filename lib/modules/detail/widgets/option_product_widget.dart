@@ -172,8 +172,9 @@ class OptionProductWidget extends GetView<DetailController> {
                         children: [
                           item.attributes?.firstWhere((attr) => attr.attributeCode == 'price_original',) != null ?
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: item.options !=null ? MainAxisAlignment.spaceBetween : MainAxisAlignment.center,
                             children: [
+                              item.options !=null ?
                               Row(
                                 children: [
                                   Padding(
@@ -199,12 +200,15 @@ class OptionProductWidget extends GetView<DetailController> {
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 2),
-                                        child: Text('-${100-((((((((controller.currentVariant.value.product?.priceRange?.minimumPrice?.finalPrice?.value)! + item.options![0].value![controller.currentOptionIndex.value].price!)??0)/(double.parse(item.attributes?.firstWhere((attr) => attr.attributeCode == 'price_original',).value ?? '0')))*100).floor()/100)*100))~/1}%',style: TextStyle(color: Colors.red,fontSize: 13,fontWeight: FontWeight.bold),),
-                                      ),
+                                        child: Text('-${100-((((((((controller.currentVariant.value.product?.priceRange?.minimumPrice?.finalPrice?.value)! + item.options![0].value![controller.currentOptionIndex.value].price!)??0)/(double.parse(item.attributes?.firstWhere((attr) => attr.attributeCode == 'price_original',).value ?? '0')))*100).floor()/100)*100))~/1}%',style: TextStyle(color: Colors.red,fontSize: 13,fontWeight: FontWeight.bold),)
+
+                                    ),
                                     );
                                   },)
                                 ],
-                              ),
+                              )
+                              :
+                              SizedBox(),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(

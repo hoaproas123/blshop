@@ -55,7 +55,7 @@ class ProductModel {
     priceRange = json['price_range'] != null
         ? PriceRange.fromJson(json['price_range'])
         : null;
-    color = json['color'];
+    color = json['color']?.toString();
     countryOfManufacture = json['country_of_manufacture'];
     dailySale = json['daily_sale'];
     ratingSummaryStart = json['rating_summary_start'] != null

@@ -1,4 +1,5 @@
 import 'package:blshop/modules/detail/controller/detail_controller.dart';
+import 'package:blshop/modules/detail/data/attribute_data.dart';
 import 'package:blshop/modules/detail/widgets/bottom_sheet_widget.dart';
 import 'package:blshop/modules/detail/widgets/option_product_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +57,7 @@ class DetailView extends GetView<DetailController> {
 
                                 ),"table": Style(
                                   width: Width(Get.width),
-                                  height: Height(350),
+                                  height: Height(200),
 
                                 ),
                                 "td": Style(
@@ -86,49 +87,81 @@ class DetailView extends GetView<DetailController> {
                           child: Table(
                             border: TableBorder.all(),
                             columnWidths: const {
-                              0: FixedColumnWidth(40),
+                              0: FixedColumnWidth(100),
                               1: FlexColumnWidth(),
                             },
-                            children: [
-                              TableRow(
+                            children: attributeList.where((attribute) {
+                              // Ensure the primary attribute exists before trying to build the row
+                              return controller.findAtrributeValue(item, attribute.attributeCode[0]) != null;
+                            }).map((attribute) {
+                              return TableRow(
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.all(8),
-                                    child: Icon(Icons.phone),
+                                    child: attribute.text == null
+                                        ? Text(controller.findAtrributeLabel(item, attribute.attributeCode[0])!)
+                                        : Text(attribute.text!),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.all(8),
-                                    child: Text("Máy mới 100%, chính hãng Apple Việt Nam."),
+                                    child: attribute.type == "html"
+                                        ?
+                                        Html(
+                                          data: attribute.attributeCode.map((code) {
+                                            // Handle null values to prevent crashes
+                                            return controller.findAtrributeValue(item, code) ?? '';
+                                          }).join(attribute.symbol),
+                                        )
+                                          :
+                                        Text(
+                                          attribute.attributeCode.map((code) {
+                                            // Handle null values to prevent crashes
+                                            return controller.findAtrributeValue(item, code) ?? '';
+                                          }).join(attribute.symbol),
+                                        ),
                                   ),
                                 ],
-                              ),
-                              TableRow(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Icon(Icons.book),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Text("Hộp, Sách hướng dẫn, Cây lấy sim, Cáp Type C"),
-                                  ),
-                                ],
-                              ),
-                            ],
+                              );
+                            }).toList(),
                           ),
                         ),
-                        Html(
-                          data: item.description?.html,
-                          style: {
-                            "img": Style(
-                              width: Width(Get.width*0.8),
-                              height: Height(Get.width*0.8*(9/16))
+                        Obx(() {
+                          return Stack(
+                            alignment: AlignmentGeometry.bottomCenter,
+                            children: [
+                              SizedBox(
+                                height: controller.isSeeMore.value==false ? 150 : null,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                  child: Html(
+                                      data: item.description?.html,
+                                      style: {
+                                        "img": Style(
+                                            width: Width(Get.width*0.8),
+                                            height: Height(Get.width*0.8*(9/16))
 
-                            ),
-                          }
+                                        ),
+                                      }
 
-                        ),
-                        SizedBox(height: 100,)
+                                  ),
+                                ),
+                              ),
+                              TextButton(
+                                  style: ButtonStyle(
+                                      backgroundColor: WidgetStatePropertyAll(Colors.white)
+                                  ),
+                                  onPressed: (){
+                                    controller.isSeeMore.value=!controller.isSeeMore.value;
+                                  },
+                                  child: Text(
+                                    controller.isSeeMore.value==false ? 'Xem thêm' : 'Thu gọn',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                              )
+                            ],
+                          );
+                        }),
+                        SizedBox(height: 150,)
                       ],
                     ),
                   ),
